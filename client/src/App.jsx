@@ -1,13 +1,15 @@
-// import React from 'react'
-import Createmusic from "./components/createmusic";
-// import {CSS} from '@emotion/css'
-function App() {
-  
+// import React from 'react';
+import { SongForm } from './features/songFrom';
+import { SongList } from './features/songList' ;
+
+const App = () => {
   return (
     <div>
-      <Createmusic />
+      <h1>My Songs App</h1>
+      <SongForm />
+      <SongList />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
