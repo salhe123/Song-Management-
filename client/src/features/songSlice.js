@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchSongsApi, createSongApi } from '../api/api';
+import { createSlice} from '@reduxjs/toolkit';
+import { fetchSongsApi, createSongApi,updateSongApi } from '../api/api';
 
 const initialState = {
   songs: [],
-  status: 'idle',
+  status: 'loading',
   error: null,
 };
 
@@ -26,6 +26,9 @@ const songsSlice = createSlice({
       state.error = action.error.message;
     },
     [createSongApi.fulfilled]: (state, action) => {
+      state.songs.push(action.payload);
+    },
+    [updateSongApi.fulfilled]: (state, action) => {
       state.songs.push(action.payload);
     },
   },

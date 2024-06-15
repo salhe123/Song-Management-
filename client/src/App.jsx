@@ -1,6 +1,6 @@
 // import React from 'react';
-import { SongForm } from './features/songFrom';
-import { SongList } from './features/songList' ;
+import { SongForm } from './features/SongFrom';
+import { SongList } from './features/SongList';
 
 const App = () => {
   return (

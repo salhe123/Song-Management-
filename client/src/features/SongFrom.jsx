@@ -1,9 +1,9 @@
 // import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createSong } from './songSlice';
-import { Flex, Box, Input, Button } from '@styled-system/css';
+// import { createSong } from './songSlice';
+import { Flex, Box, Input, Button } from '../components/StyledComponents';
 
-const SongForm = () => {
+ const SongForm = () => {
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
 

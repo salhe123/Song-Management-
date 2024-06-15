@@ -10,3 +10,7 @@ export const fetchSongsApi = () => {
 export const createSongApi = (songData) => {
   return axios.post(`${API_URL}/songs`, songData);
 };
+
+export const updateSongApi = (id, songData) => {
+  return axios.put(`${API_URL}/songs/${id}`, songData);
+};

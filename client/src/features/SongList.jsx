@@ -1,8 +1,8 @@
 // import React from 'react';
 import { useSelector } from 'react-redux';
-import { Flex, Box } from '@styled-system/css';
+import { Flex, Box } from '../components/StyledComponents';
 
-const SongList = () => {
+ const SongList = () => {
   const songs = useSelector((state) => state.songs);
 
   return (
@@ -18,5 +18,6 @@ const SongList = () => {
     </Flex>
   );
 };
-
 export default SongList;
+
+ 
