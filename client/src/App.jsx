@@ -1,15 +1,18 @@
 // import React from 'react';
-import { SongForm } from './features/SongFrom';
-import { SongList } from './features/SongList';
+import { Provider } from 'react-redux';
+import store from './features/songs/store';
+import SongList from './components/SongList';
+import SongForm from './components/SongForm';
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <h1>My Songs App</h1>
-      <SongForm />
-      <SongList />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <SongForm />
+        <SongList />
+      </div>
+    </Provider>
   );
-};
+}
 
 export default App;
