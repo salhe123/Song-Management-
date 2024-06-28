@@ -16,7 +16,7 @@ const formStyle = css`
   }
 
   button {
-    background-color: #007BFF;
+    background-color: #82878D;
     color: white;
     border: none;
     cursor: pointer;

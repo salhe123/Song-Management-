@@ -1,17 +1,22 @@
-// import React from 'react';
-import { Provider } from 'react-redux';
-import store from './features/songs/store';
-import SongList from './components/SongList';
-import SongForm from './components/SongForm';
+import { BrowserRouter } from "react-router-dom";
+import { css, Global } from "@emotion/react";
+import SongList from "./components/SongList";
+import SongForm from "./components/SongForm";
 
 function App() {
+  const globalStyles = css`
+    body {
+      background-color: #acb4e9; /* This is the hex code for Tailwind's gray-400 */
+    }
+  `;
+
   return (
-    <Provider store={store}>
-      <div className="App">
-        <SongForm />
+    <div className="App">
+      <Global styles={globalStyles} />
+      <BrowserRouter>
         <SongList />
-      </div>
-    </Provider>
+      </BrowserRouter>
+    </div>
   );
 }
 
