@@ -1,7 +1,7 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { css, Global } from "@emotion/react";
 import SongList from "./components/SongList";
-import SongForm from "./components/SongForm";
+import AddSong from "./components/AddSong";
 
 function App() {
   const globalStyles = css`
@@ -13,9 +13,12 @@ function App() {
   return (
     <div className="App">
       <Global styles={globalStyles} />
-      <BrowserRouter>
-        <SongList />
-      </BrowserRouter>
+      <Router>
+      <Routes>
+        <Route path="/" element={<SongList />} />
+        <Route path="/AddSong" element={<AddSong />} />
+      </Routes>
+    </Router>
     </div>
   );
 }

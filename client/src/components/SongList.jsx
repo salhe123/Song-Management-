@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchSongs } from "../features/songs/songsSlice";
+// import AddSong from "./AddSong";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
@@ -29,7 +30,7 @@ const songListStyle = css`
     color: black;
 
     &:hover {
-    cursor:pointer;
+      cursor: pointer;
       transform: scale(1.05);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
@@ -65,7 +66,7 @@ const songListStyle = css`
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #576A9B; /* Darker shade of blue */
+        background-color: #576a9b; /* Darker shade of blue */
       }
     }
   }
@@ -78,24 +79,54 @@ const songListStyle = css`
   p {
     color: black;
   }
-    
 `;
 const addSongStyle = css`
   position: fixed;
-  Top: 20px;
+  top: 20px;
   right: 20px;
   padding: 8px 16px;
-      background-color: #5B6FF1; /* Tailwind blue-600 */
-      color: white;
-      text-decoration: none;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+  background-color: #5b6ff1; /* Tailwind blue-600 */
+  color: white;
+  text-decoration: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 
-      &:hover {
-        background-color: #DCDEE9; /* Darker shade of blue */
-      }
+  &:hover {
+    background-color: #dcdee9; /* Darker shade of blue */
+  }
 `;
+const loadingStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  z-index: 999; /* Ensure it's on top of everything */
+
+  .loader {
+    border: 8px solid #f3f3f3; /* Light gray border */
+    border-top: 8px solid #3498db; /* Blue border for animation */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite; /* Animation properties */
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg); /* Start rotation */
+    }
+    100% {
+      transform: rotate(360deg); /* End rotation */
+    }
+  }
+`;
+
 
 const SongList = () => {
   const dispatch = useDispatch();
@@ -108,7 +139,13 @@ const SongList = () => {
   }, [dispatch]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div css={loadingStyle}>
+        <div>
+          <p>Loading</p>
+        </div>
+      </div>
+    );
   }
 
   if (status === "failed") {
@@ -132,7 +169,7 @@ const SongList = () => {
           </li>
         ))}
       </ul>
-      <Link to={'/add-song'} css={addSongStyle}>
+      <Link to={"/AddSong"} css={addSongStyle}>
         Add Song
       </Link>
     </div>
