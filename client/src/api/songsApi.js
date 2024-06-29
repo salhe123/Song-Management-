@@ -1,5 +1,20 @@
-import axios from 'axios';
+// src/api/songsApi.js
 
-const API_URL = 'https://jsonplaceholder.typicode.com/users';
+import { useQuery, useMutation } from '@apollo/client';
+import { fetchGraphQL, CREATE_SONG, UPDATE_SONG, DELETE_SONG } from '../graphql/Operation';
 
-export const fetchSongsApi = () => axios.get(API_URL);
+export const useFetchSongs = () => {
+  return useQuery(fetchGraphQL);
+};
+
+export const useCreateSong = () => {
+  return useMutation(CREATE_SONG);
+};
+
+export const useUpdateSong = () => {
+  return useMutation(UPDATE_SONG);
+};
+
+export const useDeleteSong = () => {
+  return useMutation(DELETE_SONG);
+};

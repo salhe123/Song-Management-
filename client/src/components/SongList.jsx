@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchSongs } from "../features/songs/songsSlice";
+import { fetchSongs, deleteSong } from "../features/songs/songsSlice";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
@@ -143,6 +143,10 @@ const SongList = () => {
     dispatch(fetchSongs());
   }, [dispatch]);
 
+  const handleDelete = (id) => {
+    dispatch(deleteSong(id));
+  };
+
   if (status === "loading") {
     return (
       <div css={loadingStyle}>
@@ -165,18 +169,18 @@ const SongList = () => {
             <p>Artist: {song.artist}</p>
             <p>Album: {song.album}</p>
             <p>Year: {song.year}</p>
-            <audio controls>  
-              <source src={song.audioFile} type="audio/mpeg" />
+            <audio controls>
+              <source src={song.audio_file} type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
             <div>
               <Link to={`/updateSong/${song.id}`}>Edit</Link>
-              <button>Delete</button>
+              <button onClick={() => handleDelete(song.id)}>Delete</button>
             </div>
           </li>
         ))}
       </ul>
-      <Link to={"/AddSong"} css={addSongStyle}>
+      <Link to={"/addSong"} css={addSongStyle}>
         Add Song
       </Link>
     </div>
