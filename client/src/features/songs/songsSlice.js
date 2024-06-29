@@ -20,15 +20,27 @@ const songsSlice = createSlice({
       state.error = action.payload;
     },
     addSong: (state, action) => {
-      // Logic to add a new song to the state
-      state.songs.push(action.payload);
+      const newSong = {
+        id: action.payload.id, // Ensure the payload contains a unique ID
+        title: action.payload.title,
+        artist: action.payload.artist,
+        album: action.payload.album,
+        year: action.payload.year,
+        audioFile: action.payload.audioFile,
+      };
+      state.songs.push(newSong);
     },
     updateSong: (state, action) => {
-      // Logic to update an existing song in the state
-      const { id, title } = action.payload;
+      const { id, title, artist, album, year, audioFile } = action.payload;
       const existingSong = state.songs.find(song => song.id === id);
       if (existingSong) {
         existingSong.title = title;
+        existingSong.artist = artist;
+        existingSong.album = album;
+        existingSong.year = year;
+        if (audioFile) {
+          existingSong.audioFile = audioFile; // Only update if a new file is provided
+        }
       }
     },
     deleteSong: (state, action) => {
