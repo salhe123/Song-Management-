@@ -1,9 +1,13 @@
 // graphql/client.js
-
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'https://ibnu-adem-27.hasura.app/v1/graphql', // Replace with your GraphQL endpoint
+  link: new HttpLink({
+    // uri: 'https://charmed-kiwi-73.hasura.app/v1/graphql', // Replace with your GraphQL endpoint
+    headers: {
+      // 'x-hasura-admin-secret': "DhbokAYFrSxyrH7eo773GTFjyDw5nTcjvw20zP9Wk4aywgY8kVdRxe4NbUR6PLX2", 
+    }
+  }),
   cache: new InMemoryCache()
 });
 

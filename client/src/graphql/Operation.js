@@ -3,49 +3,56 @@
 import { gql } from '@apollo/client';
 
 export const fetchGraphQL = gql`
-  query FetchSongs {
-    songs {
-      id
-      title
-      artist
-      album
-      year
-      audio_file
-      image_url
-    }
+query GetMusics {
+  musics {
+    id
+		year
+		album
+		artist
+		audio_file
+		image_file
+		title
+		created_at
   }
+}
+    
 `;
 
 export const CREATE_SONG = gql`
-  mutation InsertMusics($year: Int, $album: String, $artist: String, $audio_file: String, $image_url: String, $title: String) {
-    insert_musics(objects: {year: $year, album: $album, artist: $artist, audio_file: $audio_file, image_url: $image_url, title: $title}) {
-      affected_rows
-      returning {
-        id
-        year
-        album
-        artist
-        audio_file
-        image_url
-        title
-        created_at
-      }
+mutation InsertMusics($year: Int, $album: String, $artist: String, $audio_file: String, $image_file: String, $title: String) {
+  insert_musics(objects: {year: $year, album: $album, artist: $artist, audio_file: $audio_file, image_file: $image_file, title: $title}) {
+    affected_rows
+    returning {
+      id
+			year
+			album
+			artist
+			audio_file
+			image_file
+			title
+			created_at
     }
   }
+}
+    
 `;
 
 export const UPDATE_SONG = gql`
-  mutation UpdateSong($id: Int!, $title: String!, $artist: String!, $album: String!, $year: Int!, $audio_file: String!, $image_url: String!) {
-    update_songs_by_pk(pk_columns: { id: $id }, _set: { title: $title, artist: $artist, album: $album, year: $year, audio_file: $audio_file, image_url: $image_url }) {
+mutation UpdateMusic($id: Int!, $year: Int, $album: String, $artist: String, $audio_file: String, $image_file: String, $title: String) {
+  update_musics(where: {id: {_eq: $id}}, _set: {year: $year, album: $album, artist: $artist, audio_file: $audio_file, image_file: $image_file, title: $title}) {
+    affected_rows
+    returning {
       id
-      title
-      artist
-      album
       year
+      album
+      artist
       audio_file
-      image_url
+      image_file
+      title
+      created_at
     }
   }
+}
 `;
 
 export const DELETE_SONG = gql`
