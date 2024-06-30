@@ -1,7 +1,5 @@
-// src/main.js
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-// import './index.css';
 import App from './App';
 import store from './features/songs/store';
 import client from './graphql/client';
