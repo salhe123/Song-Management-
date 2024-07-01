@@ -7,7 +7,7 @@ import UpdateSong from './components/updateSong';
 function App() {
   const globalStyles = css`
     body {
-      background-color: #acb4e9; /* This is the hex code for Tailwind's gray-400 */
+      background-color: #C0C3D8; /* This is the hex code for Tailwind's gray-400 */
     }
   `;
 
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SongList />} />
         <Route path="/AddSong" element={<AddSong />} />
-        <Route path="/updateSong" element={<UpdateSong />} />
+        <Route path="/updateSong/:id" element={<UpdateSong />} />
       </Routes>
     </Router>
     </div>

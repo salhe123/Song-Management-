@@ -24,7 +24,7 @@ const songListStyle = css`
     border-radius: 8px;
     width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
+    background-color: #A8A9B1;
     transition: transform 0.3s, box-shadow 0.3s;
     color: black;
 
@@ -156,7 +156,7 @@ const SongList = () => {
   }
 
   if (status === "failed") {
-    return <div>Error: {error}</div>;
+    return <div>Error:when it loaded {error}</div>;
   }
 
   return (

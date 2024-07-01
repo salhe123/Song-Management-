@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {useNavigate} from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { addSong } from "../features/songs/songsSlice";
 /** @jsxImportSource @emotion/react */
@@ -87,6 +88,7 @@ const AddSong = () => {
   const [album, setAlbum] = useState("");
   const [year, setYear] = useState("");
   const [audioFile, setAudioFile] = useState(null);
+  const navigate=useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,7 +107,9 @@ const AddSong = () => {
       setAlbum("");
       setYear("");
       setAudioFile(null);
+      navigate('/')
     }
+   
   };
 
   const handleFileChange = (e) => {
