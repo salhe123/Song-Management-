@@ -1,20 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import songsReducer from './songsSlice'; // Adjust the path as per your project structure
-import rootSaga from './songsSaga'; // Adjust the path as per your project structure
+import songsReducer from './songsSlice'; // Adjust the path to your songsSlice file
+import songsSaga from './songsSaga'; // Adjust the path to your songsSaga file
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: {
-    songs: songsReducer, // Include your songsReducer in the root reducer
+    songs: songsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      thunk: false, // Disable default thunk middleware if not needed
+      thunk: false, // Disable default thunk middleware
+      serializableCheck: {
+        ignoredActions: ['songs/createSong', 'songs/updateSong', 'songs/deleteSong'], // Ignore serializability check for these actions
+      },
     }).concat(sagaMiddleware),
 });
 
-sagaMiddleware.run(rootSaga); // Run your rootSaga
+sagaMiddleware.run(songsSaga);
 
 export default store;

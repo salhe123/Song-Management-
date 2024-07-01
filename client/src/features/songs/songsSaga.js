@@ -3,6 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchGraphQL, CREATE_SONG, UPDATE_SONG, DELETE_SONG } from '../../graphql/Operation';
 import client from '../../graphql/client';
 
+// Saga function for fetching songs
 function* fetchSongsSaga() {
   try {
     const response = yield call(client.query, { query: fetchGraphQL });
@@ -12,6 +13,7 @@ function* fetchSongsSaga() {
   }
 }
 
+// Saga function for creating a song
 function* createSongSaga(action) {
   try {
     const response = yield call(client.mutate, { mutation: CREATE_SONG, variables: action.payload });
@@ -21,6 +23,7 @@ function* createSongSaga(action) {
   }
 }
 
+// Saga function for updating a song
 function* updateSongSaga(action) {
   try {
     const response = yield call(client.mutate, { mutation: UPDATE_SONG, variables: action.payload });
@@ -30,6 +33,7 @@ function* updateSongSaga(action) {
   }
 }
 
+// Saga function for deleting a song
 function* deleteSongSaga(action) {
   try {
     const response = yield call(client.mutate, { mutation: DELETE_SONG, variables: { id: action.payload } });
@@ -39,6 +43,7 @@ function* deleteSongSaga(action) {
   }
 }
 
+// Root saga function that combines all the sagas
 export default function* songsSaga() {
   yield takeLatest('songs/fetchSongs', fetchSongsSaga);
   yield takeLatest('songs/createSong', createSongSaga);

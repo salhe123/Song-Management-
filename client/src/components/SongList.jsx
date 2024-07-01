@@ -12,61 +12,57 @@ const songListStyle = css`
   gap: 20px;
   padding: 20px;
   list-style-type: none;
+`;
 
-  h2 {
-    color: black;
+const listItemStyle = css`
+  padding: 20px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #a8a9b1;
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: black;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
 
-  li {
-    padding: 20px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #A8A9B1;
-    transition: transform 0.3s, box-shadow 0.3s;
-    color: black;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+    background-color: #acb4e9;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
     &:hover {
-      cursor: pointer;
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      background-color: #b91c1c;
     }
+  }
 
-    > div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-    }
+  a {
+    padding: 8px 16px;
+    background-color: #acb4e9;
+    color: white;
+    text-decoration: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-    button {
-      padding: 8px 16px;
-      background-color: #acb4e9;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: #b91c1c;
-      }
-    }
-
-    a {
-      padding: 8px 16px;
-      background-color: #acb4e9;
-      color: white;
-      text-decoration: none;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: #576a9b;
-      }
+    &:hover {
+      background-color: #576a9b;
     }
   }
 
@@ -85,51 +81,25 @@ const songListStyle = css`
   }
 `;
 
-const addSongStyle = css`
+const addSongButtonWrapperStyle = css`
   position: fixed;
   top: 20px;
   right: 20px;
-  padding: 8px 16px;
-  background-color: #5b6ff1;
+  z-index: 1000;
+`;
+
+const addSongStyle = css`
+  display: block;
+  padding: 10px 20px;
+  background-color: #1b241b;
   color: white;
+  text-align: center;
   text-decoration: none;
-  border-radius: 14px;
-  cursor: pointer;
+  border-radius: 8px;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #dcdee9;
-  }
-`;
-
-const loadingStyle = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-
-  .loader {
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #3498db;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+    background-color: #45a049;
   }
 `;
 
@@ -148,24 +118,34 @@ const SongList = () => {
   };
 
   if (status === "loading") {
-    return (
-      <div css={loadingStyle}>
-        <div className="loader"></div>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
   if (status === "failed") {
-    return <div>Error:when it loaded {error}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <div>
+      <div css={addSongButtonWrapperStyle}>
+        <Link to={"/addSong"} css={addSongStyle}>
+          Add Song
+        </Link>
+      </div>
       <h2 css={songListStyle}>Song List</h2>
       <ul css={songListStyle}>
         {songs.map((song) => (
-          <li key={song.id}>
-            <h3>{song.title}</h3>
+          <li key={song.id} css={listItemStyle}>
+            <div
+              style={{
+                backgroundImage: `url(${song.image})`,
+                backgroundSize: "cover",
+                height: "150px",
+                borderRadius: "8px",
+              }}
+            >
+              <h3>{song.title}</h3>
+            </div>
             <p>Artist: {song.artist}</p>
             <p>Album: {song.album}</p>
             <p>Year: {song.year}</p>
@@ -180,9 +160,6 @@ const SongList = () => {
           </li>
         ))}
       </ul>
-      <Link to={"/addSong"} css={addSongStyle}>
-        Add Song
-      </Link>
     </div>
   );
 };
