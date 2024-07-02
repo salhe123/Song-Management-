@@ -12,9 +12,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: false, // Disable default thunk middleware
-      serializableCheck: {
-        ignoredActions: ['songs/createSong', 'songs/updateSong', 'songs/deleteSong'], // Ignore serializability check for these actions
-      },
+      serializableCheck: false
     }).concat(sagaMiddleware),
 });
 

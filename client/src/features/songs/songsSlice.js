@@ -27,6 +27,7 @@ const songsSlice = createSlice({
     createSongSuccess(state, action) {
       state.status = "succeeded";
       state.songs.push(action.payload);
+
     },
     createSongFailure(state, action) {
       state.status = "failed";
@@ -36,7 +37,7 @@ const songsSlice = createSlice({
       state.status = "loading";
     },
     updateSongSuccess(state, action) {
-      state.status = "succeeded";
+      state.loading = false;
       const updatedSong = action.payload;
       state.songs = state.songs.map((song) =>
         song.id === updatedSong.id ? updatedSong : song

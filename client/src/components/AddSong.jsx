@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createSong } from "../features/songs/songsSlice"; // Ensure the action is named correctly
@@ -64,17 +64,30 @@ const AddSong = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("artist", artist);
-    formData.append("album", album);
-    formData.append("year", year);
-    formData.append("audio_file", audioFile);
-    formData.append("image_file", imageFile);
+    const songData = {
+      title,
+      artist,
+      album,
+      year,
+      audioFile,
+      imageFile,
+    };
 
-    dispatch(createSong(formData))
-      .then(() => navigate("/"))
-      .catch((error) => console.error("Error adding song: ", error));
+    console.log("Song Data:", songData);
+
+    // Dispatch action to create song with the collected data
+    dispatch(createSong(songData));
+
+    // Reset form fields after submission if needed
+    setTitle("");
+    setArtist("");
+    setAlbum("");
+    setYear("");
+    setAudioFile(null);
+    setImageFile(null);
+
+    // Navigate to the home page or another route after submission
+    navigate("/");
   };
 
   return (

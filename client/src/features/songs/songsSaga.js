@@ -2,6 +2,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchGraphQL, CREATE_SONG, UPDATE_SONG, DELETE_SONG } from '../../graphql/Operation';
 import client from '../../graphql/client';
+import {updateSongFailure,updateSongSuccess} from "./songsSlice"
 
 // Saga function for fetching songs
 function* fetchSongsSaga() {
@@ -16,9 +17,26 @@ function* fetchSongsSaga() {
 // Saga function for creating a song
 function* createSongSaga(action) {
   try {
-    const response = yield call(client.mutate, { mutation: CREATE_SONG, variables: action.payload });
+    console.log(action.payload)
+    const response = yield call(client.mutate, { 
+      mutation: CREATE_SONG, 
+      variables: { 
+        year: action.payload.year, 
+        album: action.payload.album, 
+        artist: action.payload.artist, 
+        title: action.payload.title 
+      } 
+    });
+
+    // Dispatch success action with the newly created song
     yield put({ type: 'songs/createSongSuccess', payload: response.data.insert_musics.returning[0] });
+    console.log("Successfully added song:", response.data.insert_musics.returning[0]);
+
+    // Optionally, dispatch an action to fetch songs again if needed
+    // yield put({ type: 'songs/fetchSongs' });
+
   } catch (e) {
+    console.error("Failed to add song:", e);
     yield put({ type: 'songs/createSongFailure', message: e.message });
   }
 }
@@ -26,10 +44,32 @@ function* createSongSaga(action) {
 // Saga function for updating a song
 function* updateSongSaga(action) {
   try {
-    const response = yield call(client.mutate, { mutation: UPDATE_SONG, variables: action.payload });
-    yield put({ type: 'songs/updateSongSuccess', payload: response.data.update_musics.returning[0] });
+    const { id, title, artist, album, year, audioFile, imageFile } = action.payload;
+
+    // Constructing variables for the GraphQL mutation
+    const variables = {
+      input: {
+        id,
+        title,
+        artist,
+        album,
+        year,
+        audioFile: audioFile ? audioFile.name : null,
+        imageFile: imageFile ? imageFile.name : null,
+      },
+    };
+
+    // Making the API call using your GraphQL client
+    const response = yield call(client.mutate, {
+      mutation: UPDATE_SONG,
+      variables,
+    });
+
+    // Dispatching success action with updated song data
+    yield put(updateSongSuccess(response.data.update_musics.returning[0]));
   } catch (e) {
-    yield put({ type: 'songs/updateSongFailure', message: e.message });
+    // Dispatching failure action with error message
+    yield put(updateSongFailure(e.message));
   }
 }
 

@@ -41,7 +41,7 @@ const formStyle = css`
     background: #d4d5e2;
     color: black;
   }
-  
+
   input::placeholder,
   select::placeholder {
     color: black;
@@ -85,47 +85,48 @@ const UpdateSong = () => {
   const songs = useSelector((state) => state.songs.songs);
   const song = songs.find((song) => song.id === parseInt(id));
 
-  const [title, setTitle] = useState(song?.title || "");
-  const [artist, setArtist] = useState(song?.artist || "");
-  const [album, setAlbum] = useState(song?.album || "");
-  const [year, setYear] = useState(song?.year || "");
+  const [title, setTitle] = useState("");
+  const [artist, setArtist] = useState("");
+  const [album, setAlbum] = useState("");
+  const [year, setYear] = useState("");
   const [audioFile, setAudioFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     if (!song) {
       dispatch(fetchSongs());
-    }
-  }, [dispatch, song]);
-
-  useEffect(() => {
-    if (song) {
+    } else {
       setTitle(song.title);
       setArtist(song.artist);
       setAlbum(song.album);
       setYear(song.year);
     }
-  }, [song]);
+  }, [dispatch, song]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title && artist && album && year) {
-      const songData = new FormData();
-      songData.append("id", id);
-      songData.append("title", title);
-      songData.append("artist", artist);
-      songData.append("album", album);
-      songData.append("year", year);
-      if (audioFile) {
-        songData.append("audioFile", audioFile);
-      }
+    if (title && artist && album && year && id) {
+      const songData = {
+        id: parseInt(id), // Ensure id is passed as integer
+        title,
+        artist,
+        album,
+        year,
+        audio_file: audioFile, // Assuming audioFile and imageFile are already file objects
+        image_file: imageFile,
+      };
 
       dispatch(updateSong(songData));
       navigate("/");
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleAudioFileChange = (e) => {
     setAudioFile(e.target.files[0]);
+  };
+
+  const handleImageFileChange = (e) => {
+    setImageFile(e.target.files[0]);
   };
 
   const currentYear = new Date().getFullYear();
@@ -179,7 +180,14 @@ const UpdateSong = () => {
         <input
           type="file"
           accept="audio/*"
-          onChange={handleFileChange}
+          onChange={handleAudioFileChange}
+        />
+
+        <label>Image File:</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageFileChange}
         />
 
         <button type="submit">Update Song</button>

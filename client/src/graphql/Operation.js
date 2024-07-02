@@ -17,7 +17,7 @@ export const fetchGraphQL = gql`
 `;
 
 export const CREATE_SONG = gql`
-  mutation InsertMusics($year: Int, $album: String, $artist: String, $title: String) {
+  mutation InsertMusics($year: Int, $album: String, $artist: String, $title: String ) {
   insert_musics(objects: {year: $year, album: $album, artist: $artist, title: $title}) {
     affected_rows
     returning {
