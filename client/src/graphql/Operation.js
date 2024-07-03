@@ -36,19 +36,16 @@ export const CREATE_SONG = gql`
 `;
 
 export const UPDATE_SONG = gql`
-  mutation UpdateMusic($id: Int!, $year: Int, $album: String, $artist: String, $audio_file: String, $image_file: String, $title: String) {
-    update_musics(where: {id: {_eq: $id}}, _set: {year: $year, album: $album, artist: $artist, audio_file: $audio_file, image_file: $image_file, title: $title}) {
-      affected_rows
-      returning {
-        id
-        year
-        album
-        artist
-        audio_file
-        image_file
-        title
-        created_at
-      }
+  mutation UpdateMusic($id: Int!, $title: String, $artist: String, $album: String, $year: Int) {
+    update_musics_by_pk(pk_columns: {id: $id}, _set: {title: $title, artist: $artist, album: $album, year: $year}) {
+      id
+      title
+      artist
+      album
+      year
+      audio_file
+      image_file
+      created_at
     }
   }
 `;

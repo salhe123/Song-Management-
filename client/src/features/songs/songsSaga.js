@@ -46,6 +46,33 @@ function* updateSongSaga(action) {
   try {
     const { id, title, artist, album, year, audioFile, imageFile } = action.payload;
 
+    // Log variables to verify their values
+    console.log("Variables being passed to the mutation:", {
+      id,
+      title,
+      artist,
+      album,
+      year,
+      audio_file: audioFile ? audioFile.name : null,
+      image_file: imageFile ? imageFile.name : null,
+    });
+    // Handle file uploads if necessary
+    let uploadedAudioFile = audioFile;
+    let uploadedImageFile = imageFile;
+
+    // Example for handling file uploads, if needed
+    if (audioFile) {
+      // Replace with your actual file upload logic
+      const audioResponse = yield call(uploadFile, audioFile);
+      uploadedAudioFile = audioResponse.fileName;
+    }
+
+    if (imageFile) {
+      // Replace with your actual file upload logic
+      const imageResponse = yield call(uploadFile, imageFile);
+      uploadedImageFile = imageResponse.fileName;
+    }
+
     // Constructing variables for the GraphQL mutation
     const variables = {
       input: {
@@ -53,9 +80,9 @@ function* updateSongSaga(action) {
         title,
         artist,
         album,
-        year,
-        audioFile: audioFile ? audioFile.name : null,
-        imageFile: imageFile ? imageFile.name : null,
+        year: parseInt(year),
+        audio_file: uploadedAudioFile,
+        image_file: uploadedImageFile,
       },
     };
 

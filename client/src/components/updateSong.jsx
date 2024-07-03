@@ -95,11 +95,13 @@ const UpdateSong = () => {
   useEffect(() => {
     if (!song) {
       dispatch(fetchSongs());
+      console.log("chek the fecth")
     } else {
       setTitle(song.title);
       setArtist(song.artist);
       setAlbum(song.album);
       setYear(song.year);
+      console.log("not fecth")
     }
   }, [dispatch, song]);
 
@@ -112,8 +114,8 @@ const UpdateSong = () => {
         artist,
         album,
         year,
-        audio_file: audioFile, // Assuming audioFile and imageFile are already file objects
-        image_file: imageFile,
+        audioFile, // Assuming audioFile and imageFile are already file objects
+        imageFile,
       };
 
       dispatch(updateSong(songData));
