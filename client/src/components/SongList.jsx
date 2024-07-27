@@ -135,7 +135,19 @@ const addSongStyle = css`
     background-color: #45a049;
   }
 `;
+const socialIcon = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Adjust gap between icons if needed */
+  height: 10vh;
+`;
 
+const iconStyle = css`
+  display: inline-flex;
+  width: 40px; /* Adjust the size of the icons if needed */
+  height: 40px;
+`;
 const SongList = () => {
   const dispatch = useDispatch();
   const songs = useSelector((state) => state.songs.songs);
@@ -188,8 +200,22 @@ const SongList = () => {
               <button onClick={() => handleDelete(song.id)}>Delete</button>
             </div>
           </li>
+         
+
         ))}
       </ul>
+      <div css={socialIcon}>
+    <a href="https://github.com/salhe123" target="_blank" rel="noopener noreferrer">
+      <svg role="img" fill="#181717" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" css={iconStyle}>
+        <path d="M12 0.297C5.374 0.297 0 5.672 0 12.297c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.261.82-.579 0-.285-.011-1.04-.017-2.04-3.338.725-4.042-1.613-4.042-1.613-.546-1.387-1.333-1.758-1.333-1.758-1.089-.744.083-.729.083-.729 1.205.085 1.839 1.238 1.839 1.238 1.07 1.833 2.807 1.304 3.492.997.108-.775.419-1.305.763-1.605-2.665-.302-5.467-1.332-5.467-5.93 0-1.31.468-2.381 1.235-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.007-.322 3.301 1.23.956-.266 1.983-.398 3.003-.403 1.02.005 2.048.137 3.006.403 2.292-1.553 3.298-1.23 3.298-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.625-5.478 5.92.43.37.814 1.096.814 2.207 0 1.592-.015 2.874-.015 3.262 0 .32.216.694.825.577C20.565 22.092 24 17.597 24 12.297c0-6.625-5.373-12-12-12"/>
+      </svg>
+    </a>
+    <a href="https://www.linkedin.com/in/salhe-seid-9a231b284?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">
+      <svg role="img" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" css={iconStyle}>
+        <path d="M22.23 0H1.77C.79 0 0 .774 0 1.72v20.56C0 23.227.79 24 1.77 24h20.46C23.21 24 24 23.226 24 22.28V1.72C24 .773 23.21 0 22.23 0zM7.12 20.452H3.56V8.896h3.56v11.556zM5.34 7.308a2.057 2.057 0 110-4.114 2.057 2.057 0 010 4.114zm15.1 13.144h-3.56v-5.56c0-1.325-.027-3.03-1.848-3.03-1.85 0-2.135 1.445-2.135 2.936v5.654H9.33V8.896h3.417v1.584h.048c.476-.898 1.638-1.848 3.37-1.848 3.6 0 4.27 2.372 4.27 5.457v6.363z"/>
+      </svg>
+    </a>
+  </div>
     </div>
   );
 };
