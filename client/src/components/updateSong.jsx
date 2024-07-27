@@ -5,6 +5,7 @@ import { updateSong, fetchSongs } from "../features/songs/songsSlice";
 /** @jsxImportSource @emotion/react */
 import { css, Global } from "@emotion/react";
 
+// Define the styles using Emotion's css
 const formStyle = css`
   max-width: 600px;
   margin: 0 auto;
@@ -28,7 +29,6 @@ const formStyle = css`
 
   input[type="text"],
   select,
-  input[type="file"],
   button {
     width: 100%;
     padding: 10px;
@@ -53,10 +53,6 @@ const formStyle = css`
 
   select option[value=""][disabled] {
     display: none;
-  }
-
-  input[type="file"] {
-    color: black;
   }
 
   button {
@@ -89,46 +85,49 @@ const UpdateSong = () => {
   const [artist, setArtist] = useState("");
   const [album, setAlbum] = useState("");
   const [year, setYear] = useState("");
-  const [audioFile, setAudioFile] = useState(null);
   const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     if (!song) {
       dispatch(fetchSongs());
-      console.log("chek the fecth")
     } else {
-      setTitle(song.title);
-      setArtist(song.artist);
-      setAlbum(song.album);
-      setYear(song.year);
-      console.log("not fecth")
+      setTitle(song.title || "");
+      setArtist(song.artist || "");
+      setAlbum(song.album || "");
+      setYear(song.year || "");
+      // imageFile is handled separately
     }
-  }, [dispatch, song]);
+  }, [dispatch, song, id]);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageFile(reader.result); // This will be a Base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title && artist && album && year && id) {
-      const songData = {
-        id: parseInt(id), // Ensure id is passed as integer
-        title,
-        artist,
-        album,
-        year,
-        audioFile, // Assuming audioFile and imageFile are already file objects
-        imageFile,
-      };
 
-      dispatch(updateSong(songData));
-      navigate("/");
+    if (!song || !song.id) {
+      console.error("Song ID is missing.");
+      return;
     }
-  };
 
-  const handleAudioFileChange = (e) => {
-    setAudioFile(e.target.files[0]);
-  };
+    dispatch(updateSong({
+      id: song.id,
+      title,
+      artist,
+      album,
+      year,
+      imageFile // Send as Base64 string
+    }));
 
-  const handleImageFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    navigate("/"); // Redirect after updating
   };
 
   const currentYear = new Date().getFullYear();
@@ -168,28 +167,17 @@ const UpdateSong = () => {
 
         <label>Year:</label>
         <select value={year} onChange={(e) => setYear(e.target.value)} required>
-          <option value="" disabled>
-            Select year
-          </option>
+          <option value="" disabled>Select year</option>
           {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
+            <option key={year} value={year}>{year}</option>
           ))}
         </select>
-
-        <label>Audio File:</label>
-        <input
-          type="file"
-          accept="audio/*"
-          onChange={handleAudioFileChange}
-        />
 
         <label>Image File:</label>
         <input
           type="file"
           accept="image/*"
-          onChange={handleImageFileChange}
+          onChange={handleFileChange}
         />
 
         <button type="submit">Update Song</button>

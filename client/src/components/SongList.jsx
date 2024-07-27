@@ -14,6 +14,28 @@ const songListStyle = css`
   list-style-type: none;
 `;
 
+const loadingContainerStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full width */
+`;
+
+const spinnerStyle = css`
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1.5s linear infinite;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 const listItemStyle = css`
   padding: 20px;
   margin: 10px;
@@ -32,10 +54,21 @@ const listItemStyle = css`
   }
 
   > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+    position: relative;
+    height: 150px; /* Adjust as needed */
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container */
   }
 
   button {
@@ -118,7 +151,11 @@ const SongList = () => {
   };
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div css={loadingContainerStyle}>
+        <div css={spinnerStyle}></div>
+      </div>
+    );
   }
 
   if (status === "failed") {
@@ -136,16 +173,10 @@ const SongList = () => {
       <ul css={songListStyle}>
         {songs.map((song) => (
           <li key={song.id} css={listItemStyle}>
-            <div
-              style={{
-                backgroundImage: `url(${song.image})`,
-                backgroundSize: "cover",
-                height: "150px",
-                borderRadius: "8px",
-              }}
-            >
-              <h3>{song.title}</h3>
+            <div>
+              <img src={song.image_file} alt={song.title} />
             </div>
+            <h3>{song.title}</h3>
             <p>Artist: {song.artist}</p>
             <p>Album: {song.album}</p>
             <p>Year: {song.year}</p>

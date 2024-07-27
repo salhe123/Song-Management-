@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createSong } from "../features/songs/songsSlice"; // Ensure the action is named correctly
@@ -18,6 +18,11 @@ const labelStyle = css`
   display: block;
   margin-bottom: 10px;
 `;
+const AddSongCss = css`
+  display: block;
+  margin-bottom: 10px;
+  text-align: center; /* Center text horizontally */
+`;
 
 const inputStyle = css`
   width: calc(100% - 20px);
@@ -29,7 +34,7 @@ const inputStyle = css`
 
 const buttonStyle = css`
   padding: 10px 20px;
-  background-color: #acb4e9;
+  background-color: #6274ee;
   color: white;
   border: none;
   border-radius: 5px;
@@ -40,6 +45,7 @@ const buttonStyle = css`
     background-color: #576a9b;
   }
 `;
+
 
 const AddSong = () => {
   const dispatch = useDispatch();
@@ -54,12 +60,16 @@ const AddSong = () => {
 
   const years = Array.from({ length: 50 }, (_, index) => 2024 - index); // Generate last 50 years
 
-  const handleTitleChange = (e) => setTitle(e.target.value);
-  const handleArtistChange = (e) => setArtist(e.target.value);
-  const handleAlbumChange = (e) => setAlbum(e.target.value);
-  const handleYearChange = (e) => setYear(e.target.value);
-  const handleAudioFileChange = (e) => setAudioFile(e.target.files[0]);
-  const handleImageFileChange = (e) => setImageFile(e.target.files[0]);
+  const handleFileChange = (e, setFile) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFile(reader.result); // Convert file to Base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,8 +79,18 @@ const AddSong = () => {
       artist,
       album,
       year,
-      audioFile,
-      imageFile,
+      audioFile, // Base64 string
+      imageFile, // Base64 string
+    };
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageFile(reader.result); // This will be a Base64 string
+        };
+        reader.readAsDataURL(file);
+      }
     };
 
     console.log("Song Data:", songData);
@@ -92,14 +112,14 @@ const AddSong = () => {
 
   return (
     <div>
-      <h2>Add New Song</h2>
+      <h2 css={AddSongCss}>Add New Song</h2>
       <form css={formStyle} onSubmit={handleSubmit}>
         <label css={labelStyle}>
           Title:
           <input
             type="text"
             value={title}
-            onChange={handleTitleChange}
+            onChange={(e) => setTitle(e.target.value)}
             css={inputStyle}
             required
           />
@@ -109,7 +129,7 @@ const AddSong = () => {
           <input
             type="text"
             value={artist}
-            onChange={handleArtistChange}
+            onChange={(e) => setArtist(e.target.value)}
             css={inputStyle}
             required
           />
@@ -119,7 +139,7 @@ const AddSong = () => {
           <input
             type="text"
             value={album}
-            onChange={handleAlbumChange}
+            onChange={(e) => setAlbum(e.target.value)}
             css={inputStyle}
             required
           />
@@ -129,7 +149,7 @@ const AddSong = () => {
           <input
             type="number"
             value={year}
-            onChange={handleYearChange}
+            onChange={(e) => setYear(e.target.value)}
             css={inputStyle}
             list="year-list"
             required
@@ -140,21 +160,21 @@ const AddSong = () => {
             ))}
           </datalist>
         </label>
-        <label css={labelStyle}>
+        {/* <label css={labelStyle}>
           Audio File:
           <input
             type="file"
-            onChange={handleAudioFileChange}
+            onChange={(e) => handleFileChange(e, setAudioFile)}
             accept="audio/*"
             css={inputStyle}
             required
           />
-        </label>
+        </label> */}
         <label css={labelStyle}>
           Image File:
           <input
             type="file"
-            onChange={handleImageFileChange}
+            onChange={(e) => handleFileChange(e, setImageFile)}
             accept="image/*"
             css={inputStyle}
             required

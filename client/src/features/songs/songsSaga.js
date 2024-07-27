@@ -24,7 +24,8 @@ function* createSongSaga(action) {
         year: action.payload.year, 
         album: action.payload.album, 
         artist: action.payload.artist, 
-        title: action.payload.title 
+        title: action.payload.title ,
+        image_file:action.payload.image_file,
       } 
     });
 
@@ -41,72 +42,35 @@ function* createSongSaga(action) {
   }
 }
 
-// Saga function for updating a song
 function* updateSongSaga(action) {
   try {
     const { id, title, artist, album, year, audioFile, imageFile } = action.payload;
 
-    // Log variables to verify their values
-    console.log("Variables being passed to the mutation:", {
-      id,
-      title,
-      artist,
-      album,
-      year,
-      audio_file: audioFile ? audioFile.name : null,
-      image_file: imageFile ? imageFile.name : null,
-    });
-    // Handle file uploads if necessary
-    let uploadedAudioFile = audioFile;
-    let uploadedImageFile = imageFile;
-
-    // Example for handling file uploads, if needed
-    if (audioFile) {
-      // Replace with your actual file upload logic
-      const audioResponse = yield call(uploadFile, audioFile);
-      uploadedAudioFile = audioResponse.fileName;
-    }
-
-    if (imageFile) {
-      // Replace with your actual file upload logic
-      const imageResponse = yield call(uploadFile, imageFile);
-      uploadedImageFile = imageResponse.fileName;
-    }
-
-    // Constructing variables for the GraphQL mutation
-    const variables = {
-      input: {
-        id,
-        title,
-        artist,
-        album,
-        year: parseInt(year),
-        audio_file: uploadedAudioFile,
-        image_file: uploadedImageFile,
-      },
-    };
-
-    // Making the API call using your GraphQL client
-    const response = yield call(client.mutate, {
+    // Perform the update using Apollo Client
+    yield client.mutate({
       mutation: UPDATE_SONG,
-      variables,
+      variables: { id, title, artist, album, year, audioFile, imageFile },
     });
 
-    // Dispatching success action with updated song data
-    yield put(updateSongSuccess(response.data.update_musics.returning[0]));
-  } catch (e) {
-    // Dispatching failure action with error message
-    yield put(updateSongFailure(e.message));
+    // Optionally refetch or update state
+    yield put({ type: 'songs/fetchSongs' }); // Example action to refetch
+  } catch (error) {
+    console.error("Error updating song:", error);
   }
 }
-
 // Saga function for deleting a song
 function* deleteSongSaga(action) {
   try {
-    const response = yield call(client.mutate, { mutation: DELETE_SONG, variables: { id: action.payload } });
-    yield put({ type: 'songs/deleteSongSuccess', payload: action.payload });
+    // Call the API to delete the song
+    yield call(client.mutate, {
+      mutation: DELETE_SONG,
+      variables: { id: action.payload },
+    });
+    // Dispatch success action if API call is successful
+    yield put(deleteSongSuccess(action.payload));
   } catch (e) {
-    yield put({ type: 'songs/deleteSongFailure', message: e.message });
+    // Dispatch failure action if API call fails
+    yield put(deleteSongFailure(e.message));
   }
 }
 

@@ -7,7 +7,7 @@ import UpdateSong from './components/updateSong';
 function App() {
   const globalStyles = css`
     body {
-      background-color: #C0C3D8; /* This is the hex code for Tailwind's gray-400 */
+      background-color: #C0C3D8; 
     }
   `;
 
