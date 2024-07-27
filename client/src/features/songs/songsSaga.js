@@ -2,7 +2,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchGraphQL, CREATE_SONG, UPDATE_SONG, DELETE_SONG } from '../../graphql/Operation';
 import client from '../../graphql/client';
-import {updateSongFailure,updateSongSuccess} from "./songsSlice"
+import {deleteSongSuccess,deleteSongFailure} from "./songsSlice"
 
 // Saga function for fetching songs
 function* fetchSongsSaga() {
@@ -25,7 +25,7 @@ function* createSongSaga(action) {
         album: action.payload.album, 
         artist: action.payload.artist, 
         title: action.payload.title ,
-        image_file:action.payload.image_file,
+        image_file:action.payload.imageFile,
       } 
     });
 

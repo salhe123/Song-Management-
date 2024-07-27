@@ -182,7 +182,6 @@ const SongList = () => {
             <p>Year: {song.year}</p>
             <audio controls>
               <source src={song.audio_file} type="audio/mpeg" />
-              Your browser does not support the audio element.
             </audio>
             <div>
               <Link to={`/updateSong/${song.id}`}>Edit</Link>
