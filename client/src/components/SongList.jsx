@@ -135,6 +135,15 @@ const addSongStyle = css`
     background-color: #45a049;
   }
 `;
+const EditDelete=css`
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px; /* Adjust gap between icons if needed */
+height: 10vh;
+https://github.com/salhe123/Song-Management-
+
+`;
 const socialIcon = css`
   display: flex;
   justify-content: center;
@@ -195,7 +204,7 @@ const SongList = () => {
             <audio controls>
               <source src={song.audio_file} type="audio/mpeg" />
             </audio>
-            <div>
+            <div css={EditDelete}>
               <Link to={`/updateSong/${song.id}`}>Edit</Link>
               <button onClick={() => handleDelete(song.id)}>Delete</button>
             </div>
@@ -205,7 +214,7 @@ const SongList = () => {
         ))}
       </ul>
       <div css={socialIcon}>
-    <a href="https://github.com/salhe123" target="_blank" rel="noopener noreferrer">
+    <a href="https://github.com/salhe123/Song-Management-" target="_blank" rel="noopener noreferrer">
       <svg role="img" fill="#181717" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" css={iconStyle}>
         <path d="M12 0.297C5.374 0.297 0 5.672 0 12.297c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.261.82-.579 0-.285-.011-1.04-.017-2.04-3.338.725-4.042-1.613-4.042-1.613-.546-1.387-1.333-1.758-1.333-1.758-1.089-.744.083-.729.083-.729 1.205.085 1.839 1.238 1.839 1.238 1.07 1.833 2.807 1.304 3.492.997.108-.775.419-1.305.763-1.605-2.665-.302-5.467-1.332-5.467-5.93 0-1.31.468-2.381 1.235-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.007-.322 3.301 1.23.956-.266 1.983-.398 3.003-.403 1.02.005 2.048.137 3.006.403 2.292-1.553 3.298-1.23 3.298-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.625-5.478 5.92.43.37.814 1.096.814 2.207 0 1.592-.015 2.874-.015 3.262 0 .32.216.694.825.577C20.565 22.092 24 17.597 24 12.297c0-6.625-5.373-12-12-12"/>
       </svg>
